@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.mapper.StudentMapper">
+	<resultMap type="user" id="stu_info">
+		<result column="sid" property="student.id"/>
+		<result column="birth" property="student.birth"/>
+		<result column="nation" property="student.nation"/>
+		<result column="politicsStatus" property="student.politicsStatus"/>
+		<result column="dept" property="student.dept"/>
+		<result column="major" property="student.major"/>
+		<result column="address" property="student.address"/>
+		<result column="identity" property="student.identity"/>
+		<result column="headPhoto" property="student.headPhoto"/>
+	</resultMap>
+	<select id="selStuInfoById" resultMap="stu_info">
+		select u.*,s.id sid,s.birth,s. nation,s.politicsStatus,s.dept,s.major,s.address,s.identity,s.headPhoto
+		from user u 
+		LEFT JOIN student_detail s on u.id=s.uid 
+		WHERE u.id=#{id};
+	</select>
+</mapper>

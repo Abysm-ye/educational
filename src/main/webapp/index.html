@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>教务管理系统</title>
+
+<link rel="stylesheet" type="text/css" href="/educational/js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="/educational/js/easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="/educational/css/style.css">
+<script type="text/javascript" src="/educational/js/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/educational/js/easyui/jquery.easyui.min.js"></script>
+
+<style type="text/css">
+	.icon-login {background: url('images/login.png') no-repeat center center;}
+</style>
+<script type="text/javascript">
+	$(function(){
+		//清空输入框
+		$("#username").textbox("setValue","");
+		$("#password").textbox("setValue","");
+		$("#code").textbox("setValue","");
+		
+		$("#login_form").submit(function(){
+			if(checkUsername()&&checkPassword()&&checkCode()){
+				$.post("/educational/login",$(this).serialize(),function(info){
+					if(info.flag){
+						//登陆成功
+						if(info.data==1){
+							location.href="/educational/pages/main_student.html";
+						}else if(info.data==2){
+							location.href="/educational/pages/main_teacher.html";
+						}else{
+							location.href="/educational/pages/main_admin.html";
+						}
+					}else{
+						$.messager.alert('系统信息',info.errorMsg,'error',function(){
+							$("#password").textbox("clear");
+							$("#code").textbox("clear");
+						});
+					}
+				});
+			}
+			return false;
+		})
+		/* $("#login_button").click(function(){
+			//获取文本输入框中的值
+			var username=$("#username").textbox("getValue");
+			var password=$("#password").textbox("getValue");
+			
+			$('#login_form').form('submit', {   
+			    url:'/educational/login',    
+			    onSubmit: function(){ 
+			        //非空验证等   
+			    	if(username==""&&password==""){
+			        	return false;
+			        }
+			    },
+			    success:function(data){
+			       	if(data=="1"){
+			       		//登陆成功
+			       		location.href="/educational/pages/main.html";
+			       	}else{
+			       		$.messager.alert('系统信息','用户名或密码错误！','info',function(){
+			       			//清空输入框
+			       			$("#username").textbox("clear");
+			    			$("#password").textbox("clear");
+			       		});
+			       	}
+			    }    
+			}); 
+		})*/
+		//js中失去焦点事件，easyui中无效；
+		/* $("#username").blur(checkUsername);
+		$("#password").blur(checkPassword); */
+	}) 
+		
+	//检验用户名是否为空
+	function checkUsername(){
+		var username=$("#_easyui_textbox_input1").val();
+		if(username==""){
+			$.messager.alert('提示','请输入用户名！','warning');
+			return false;
+		}else{
+			return true;
+		}
+	}
+	//检验密码是否为空
+	function checkPassword(){
+		var password=$("#_easyui_textbox_input2").val();
+		if(password==""){
+			$.messager.alert('提示','请输入密码！','warning');
+			return false;
+		}else{
+			return true;
+		}
+	}
+	//检验验证码是否为空
+	function checkCode(){
+		var code=$("#_easyui_textbox_input3").val();
+		if(code==""){
+			$.messager.alert('警告','请输入验证码！','warning');
+			return false;
+		}else{
+			return true;
+		}
+	}
+</script>
+
+</head>
+<body style="background-color:#E9F1FF;background-image:url(/educational/images/background_login.jpg);background-size:100%;">
+<div style="margin:150px auto;width:420px">
+	<div id="p" class="easyui-panel" title="教务管理系统" 
+		style="width:420px;height:350px;padding:10px;background:#fafafa;" 
+		data-options="iconCls:'icon-login'">
+    <form id="login_form" method="post" action="">
+    	<!-- <table width="300px" align="center">
+    			<tr>
+    				<td colspan="3" style="text-align:center;font-size:20px;font-weight:bold;">教务管理系统</td>
+    			</tr>
+    			<tr height="40px" width="300px">
+    				<td>用户名：</td>
+    				<td><input name="username" id="username" type="text" /></td>
+    				<td id="username_td"></td>
+    			</tr>
+    			<tr height="40px">
+    				<td>密码：</td>
+    				<td style=""><input name="password" id="password" type="password" /></td>
+    				<td id="password_td"></td>
+    			</tr>
+    			<tr>
+    				<td colspan="3" align="right">
+    					<input type="submit" value="登录"/>
+    					<a id="login_submit" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">登录</a>
+    				</td>
+    			</tr>
+    		</table> -->
+    		<h3 style="text-align:center;">账号登录</h3>
+    		<div style="margin-left:50px;"> 
+	    		<label style="font-weight:bold;">账号：</label>
+	    		<input id="username" name="account" class="easyui-textbox" data-options="iconCls:'icon-man',required:true," style="width:200px;padding:10px;">
+	    	</div>
+	    	<div style="margin-left:50px;margin-top:20px;">
+	    		<label style="font-weight:bold;">密码：</label>
+	    		<input id="password" name="password" class="easyui-textbox" data-options="iconCls:'icon-lock',type:'password',required:true," style="width:200px;padding:10px;">
+    		</div>
+    		<div style="margin-top:20px;margin-left:20px;">
+	            <input class="easyui-radiobutton" name="rid" value="1" label="学生：" checked="checked">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	            <input class="easyui-radiobutton" name="rid" value="2" label="教师：" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	            <input class="easyui-radiobutton" name="rid" value="3" label="管理员：" >
+			</div>
+			<div style="margin-top:20px;margin-left:50px;">
+				<label style="font-weight:bold;">验证码：</label>
+				<input id="code" name="code" class="easyui-textbox" style="width:130px;height:30px;">
+				<img src="/educational/checkCode" alt="验证码" title="看不清，换一张" onclick="changeCheckCode(this)" style="position:absolute; +margin-top:10px">
+				<script type="text/javascript">
+					//图片点击事件
+					function changeCheckCode(img) {
+						img.src="/educational/checkCode?"+new Date().getTime();
+					}
+				</script>
+			</div>
+    		<div style="margin-left:95px;margin-top:20px;float:left;">
+    			<!-- <a id="login_submit" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">登录</a> -->
+    			<input id="login_button" class="loginButton" type="submit" value="登录" />
+    		</div>
+    		
+	</form>
+	</div>
+</div>
+</body>
+</html>

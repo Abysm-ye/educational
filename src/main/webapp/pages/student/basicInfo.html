@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>个人简历模板</title>
+<meta charset="utf-8"/>
+</head>
+
+<body>
+
+<script type="text/javascript">
+	$(function(){
+		$.get("/educational/student/showStuInfo",function(user){
+			$("#account").html(user.account);
+			$("#name").html(user.name);
+			$("#sex").html(user.sex);
+			$("#nation").html(user.student.nation);
+			$("#birth").html(user.student.birht);
+			$("#politicsStatus").html(user.student.politicsStatus);
+			$("#email").html(user.email);
+			$("#phone").html(user.phone);
+			$("#major").html(user.student.major);
+			$("#address").html(user.student.address);
+		})
+	})
+</script>
+
+	<h3 align="center">个人基本信息</h3>
+	<hr style="border:none;"/>
+	<table border="1" cellspacing="0px" style="border-bottom: none;margin:auto;">
+		<tr height="30px">
+			<td colspan="5">基本情况</td>
+		</tr>
+		<tr height="30px" >
+			<td width="120px">学号</td>
+			<td width="120px" id="account"></td>
+			<td width="120px">姓名</td>
+			<td width="120px" id="name"></td>
+			<td width="120px" rowspan="7">
+			<div style="text-align:center;">
+				<img alt="头像" src="">
+				<button>上传头像</button>
+			</div>
+			</td>
+		</tr>
+		<tr height="30px" >
+			<td>性别</td>
+			<td id="sex"></td>
+			<td>民族</td>
+			<td id="nation"></td>
+		</tr>
+		<tr height="30px" >
+			<td>出生年月</td>
+			<td id="birth"></td>
+			<td>政治面貌</td>
+			<td id="politicsStatus"></td>
+		</tr>
+		<tr height="30px" >
+			<td>籍贯</td>
+			<td></td>
+			<td>健康状况</td>
+			<td></td>
+		</tr>
+		<tr height="30px" >
+			<td>电子邮箱</td>
+			<td id="email"></td>
+			<td>联系电话</td>
+			<td id="phone"></td>
+		</tr>
+		<tr height="30px" >
+			<td>专业</td>
+			<td colspan="3" id="major"></td>
+		</tr>
+		<tr height="30px" >
+			<td>家庭住址</td>
+			<td colspan="3" id="address"></td>
+		</tr>
+		<tr height="30px" >
+			<td>备注</td>
+			<td colspan="4"></td>
+		</tr>
+	</table>
+</body>
+</html>

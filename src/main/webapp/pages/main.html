@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>教务管理系统</title>
+
+<link rel="stylesheet" type="text/css" href="/educational/js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="/educational/js/easyui/themes/icon.css">
+<script type="text/javascript" src="/educational/js/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/educational/js/easyui/jquery.easyui.min.js"></script>
+
+<style type="text/css">
+	#exit_a{color:black;text-decoration:none;}
+	#exit_a:hover{color:red;}
+</style>
+
+<script type="text/javascript">
+	$(function(){
+		//验证用户是否登录
+		/* $.get("/educational/getUser",function(user){
+			if(user==""){
+				var flag=confirm("用户未登录，请先登录！")
+				if(flag){
+					location.href="/educational/index.html";
+				}else{
+					location.href="/educational/index.html";
+				}				
+			}
+		}) */
+		/* //点击菜单事件
+		$("#treeMenu").on("click","span[data-url]",function(e){
+			e.preventDefault();
+			var tabTitle=$(this).text();
+			if($("#main_tabs").tabs("exists",tabTitle)){
+				$("#main_tabs").tabs("select",tabTitle);
+			}else{
+				$("#main_tabs").tabs("add",{
+					title:tabTitle,
+					selected:true,
+					closable: true
+				})
+			}
+		}) */
+		//加载菜单
+		$.get("/educational/showMenu",{pid:0},function(list){
+			for(var i=0;i<list.length;i++){
+				$("#accordionMenu").accordion('add', {
+					 title: list[i].text,
+					 content: '<ul id="menu_tree'+i+'"></ul>',
+					 selected: false
+				})
+				$("#menu_tree"+i).tree({
+					url:'/educational/showMenu?pid='+list[i].id,
+					onClick: function(node){
+						if($("#main_tabs").tabs("exists",node.text)){
+							$("#main_tabs").tabs("select",node.text);
+						}else{
+							$("#main_tabs").tabs("add",{
+								title:node.text,
+								selected:true,
+				    			closable:true,
+				    			//href只能引进<body>标签中的内容
+				    			href:node.page
+							})
+						}
+				    }
+				});
+			}
+		})
+		//顶部显示用户信息
+		$.get("/educational/getUser",function(user){
+			$("#user_top").html("欢迎您！"+user.username+"<a id='exit_a' href='javascript:void(0);' style='margin-left:20px;' onclick='exit();'>退出</a>");
+		})
+	})
+	
+	//退出登录
+	function exit(){
+		$.messager.confirm('确认','您确认想要退出登录吗？',function(r){
+		    if (r){
+		    	$.post("/educational/exit",function(url){
+		    		location.href=url;
+		    	});
+		    }
+		});
+	}		
+</script>
+
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'north',title:'教务管理系统',split:true" style="height:100px;">
+		<div style="float:left;"><img alt="" src="/educational/images/background_top.jpg" height="60px"></div>
+		<div id="user_top" style="float:right;margin-right:50px;margin-top:20px"></div>
+		
+	</div>
+	<div data-options="region:'south',title:'系统版本',split:true" style="height:100px;">
+		<div style="text-align:center;font-size:15px;font-weight:bold;margin-top:10px;">
+			教务管理系统 v1.0
+		</div>
+		<div style="text-align:center;margin-top:10px;">
+    		Copyright &copy,2020 叶前勇
+    	</div>
+	</div>
+	<div data-options="region:'west',title:'导航菜单',split:true" style="width:250px;">
+		<div id="accordionMenu" class="easyui-accordion" data-options="fit:true">
+			<!-- <div title="个人信息"  style="overflow:auto;padding:20px;">
+				<ul id="treeMenu" class="easyui-tree">
+					<li>
+        				<span data-url="">基本信息</span>
+    				</li>
+    				<li>
+        				<span data-url="">注册信息</span>
+    				</li>
+				</ul>
+    		</div>
+    		<div title="学生成绩"  style="padding:20px;">
+           		查看成绩
+    		</div>
+    		<div title="网上选课"  style="padding:20px;">
+           		选课<br>
+           		已选课程
+    		</div>
+    		<div title="教学安排"  style="padding:20px;">
+           		课程表
+    		</div>
+    		<div title="教材信息"  style="padding:20px;">
+           		教材
+    		</div>
+    		<div title="其它"  style="padding:20px;">
+           		修改密码
+    		</div> -->
+		</div>
+	</div>
+	<div data-options="region:'center'," id="main_content">
+		<!-- <div class="easyui-tabs" id="tt">
+        	<div title="首页" iconCls="icon-ok">
+            	
+        	</div>
+    	</div> -->
+    	<div id="main_tabs" class="easyui-tabs" data-options="fit:true">
+    		<div title="首页" style="padding:20px;display:none;">
+        		<img alt="" src="/educational/images/home_page.jpg" width="100%" height="100%">
+   	 		</div>
+   	 	</div> 
+	</div>
+</body>
+</html>

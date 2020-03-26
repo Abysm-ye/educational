@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>学生信息管理</title>
+</head>
+<body>
+	<script type="text/javascript">
+		$(function(){
+			$('#admin_stu_dg').datagrid({
+			    url:'/educational/admin/stuList',
+			    title:'学生用户信息',
+			    fitColumns:true,
+			    striped:true,
+			    pagination:true,
+				pageList:[2,4,6,8,10],
+			    columns:[[
+			    	{field:'id',title:'ID',hidden:true},
+			    	{field:'account',title:'学号',width:100,align:'center',},
+			        {field:'name',title:'姓名',width:100,align:'center',},
+			        {field:'sex',title:'性别',width:100,align:'center',},
+			        {field:'phone',title:'手机号码',width:100,align:'center',},
+			        {field:'email',title:'邮箱',width:100,align:'center',},
+			        {field:'regTime',title:'注册时间',width:100,align:'center',formatter:formatDatebox,},
+			        {field:'operation',title:'操作',width:100,align:'center',
+			        	formatter: function(value,row,index){
+							return "<a href='/educational/admin/stuDetail'>详细信息</a>";
+						}	
+			        }
+			    ]],
+			    
+			    toolbar: [{
+			        iconCls: 'icon-add',
+			        handler: function(){
+			        	//添加新的用户
+			        	$('#add_stu_window').window({
+			        	    width:600,
+			        	    height:550,
+			        	    title:'添加学生用户',
+			        	    minimizable:false,
+			        	    maximizable:false,
+			        	    collapsible:false,
+			        	    href:'/educational/pages/admin/add_student.html',
+			        	});
+			        }
+			    },'-',{
+			        iconCls: 'icon-edit',
+			        handler: function(){
+			        	//修改用户信息
+			        	if($("#admin_stu_dg").datagrid("getSelections").length==1){
+			        		$('#edit_stu_dialog').dialog({    
+							    title: '修改学生用户信息',    
+							    width: 600,    
+							    height: 550,    
+							    cache: false,    
+							    href: '/educational/pages/admin/edit_student.html',
+							    onLoad:function(){
+				        	    	$("#id").val($("#admin_stu_dg").datagrid("getSelected").id);
+				        	    },
+							});
+			        	}else{
+			        		$.messager.alert('提示','请您选择一行数据！');
+			        	}
+			        }
+			    },'-',{
+			    	iconCls: 'icon-remove',
+			        handler: function(){
+			        	//删除用户信息
+			        	var ids = getSelectionsIds();
+			        	if(ids.length>0){
+			        		$.messager.confirm('确认','您确认想要删除用户吗？',function(r){
+			        		    if (r){
+			        		        $.get("/educational/admin/delStudent",{ids:ids},function(info){
+			        		        	if(info.flag){
+			        		        		$.messager.alert('系统信息',info.data,'info',function(){
+			        		        			$("#admin_stu_dg").datagrid("reload");
+			        		        		});
+			        		        	}else{
+			        		        		$.messager.alert('系统信息',info.errorMsg);
+			        		        	}
+			        		        })
+			        		    }
+			        		});
+			        	}else{
+			        		$.messager.alert('提示','请您选择至少一行数据！');
+			        	} 
+			        }
+			    }],
+			});
+		})
+		
+		//获取被选中的ID
+		function getSelectionsIds(){
+			
+			var ids = new Array();
+			var rows = $('#admin_stu_dg').datagrid('getSelections');
+			
+			for(var i=0; i<rows.length; i++){
+				ids.push(rows[i].id);
+			}
+			return ids;
+		}
+		
+		
+	</script>
+	<table id="admin_stu_dg"></table>
+	
+	<!-- 添加用户窗口 -->
+	<div id="add_stu_window"></div>
+	
+	<!-- 修改用户信息窗口 -->
+	<div id="edit_stu_dialog"></div>
+	
+</body>
+</html>

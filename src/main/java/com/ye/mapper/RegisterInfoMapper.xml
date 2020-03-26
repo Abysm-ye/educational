@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.mapper.RegisterInfoMapper">
+	<resultMap type="student" id="stu_list">
+		<result column="id" property="id"/>
+		<result column="dept" property="dept"/>
+		<result column="major" property="major"/>
+		<!--<result column="account" property="user.account"/>
+		<result column="regTime" property="user.regTime"/>
+		<result column="regCode" property="user.regCode"/> -->
+		<association property="user">
+			<result column="account" property="account"/>
+			<result column="regTime" property="regTime"/>
+			<result column="regCode" property="regCode"/>
+		</association>
+	</resultMap>
+	<select id="selByPage" resultMap="stu_list">
+		select s.id,s.dept,s.major,u.account,u.regTime,u.regCode 
+		from student_detail s 
+		left join user u on s.uid=u.id 
+		where uid=#{arg0} 
+		limit #{arg1},#{arg2}
+	</select>
+</mapper>

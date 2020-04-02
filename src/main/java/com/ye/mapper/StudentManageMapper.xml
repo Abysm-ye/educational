@@ -17,13 +17,14 @@
 		<result column="politicsStatus" property="student.politicsStatus"/>
 		<result column="dept" property="student.dept"/>
 		<result column="major" property="student.major"/>
+		<result column="grade" property="student.grade"/>
 		<result column="address" property="student.address"/>
 		<result column="identity" property="student.identity"/>
 	</resultMap>
 	<select id="selById" resultMap="edit_map">
-		select u.*,s.id sid,s.birth,s. nation,s.politicsStatus,s.dept,s.major,s.address,s.identity
+		select u.*,s.id sid,s.birth,s. nation,s.politicsStatus,s.dept,s.major,s.grade,s.address,s.identity
 		from user u 
-		LEFT JOIN student_detail s on u.id=s.uid 
+		LEFT JOIN student s on u.id=s.uid 
 		WHERE u.id=#{id};
 	</select>
 </mapper>

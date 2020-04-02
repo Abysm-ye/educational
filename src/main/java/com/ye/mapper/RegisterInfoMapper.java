@@ -2,14 +2,13 @@ package com.ye.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Select;
-
 import com.ye.pojo.Student;
+import com.ye.pojo.Teacher;
 
 public interface RegisterInfoMapper {
 	
-	public List<Student> selByPage(int uid,int pageStart,int pageSize);
+	public List<Student> selStuById(int uid);
 	
-	@Select("select count(*) from reg_info")
-	public int selTotal();
+	
+	public List<Teacher> selTeaById(int id);
 }

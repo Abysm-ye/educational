@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>注册信息</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/* $(function(){
+			$.get("/educational/getUser",function(user){
+				var uid=user.id;
+				$('#reg_dg').datagrid({
+				    url:'/educational/regInfo?uid='+uid,
+				    title:'注册信息',
+				    fitColumns:true,
+				    striped:true,
+				    columns:[[
+				        {field:'id',title:'编号',width:100,hidden:true},
+				        {field:'time',title:'入学时间',width:100,align:'center'},
+				        {field:'dept',title:'院（系）',width:100,align:'center'},
+				        {field:'major',title:'专业',width:100,align:'center'},
+				        {field:'cla',title:'班级',width:100,align:'center'},
+				        {field:'regStatus',title:'注册状态',width:100,align:'center'},
+				        {field:'uid',title:'用户ID',width:100,hidden:true},
+				    ]],
+				    
+				});
+			})
+		}) */
+	var toolbar=[{
+		text:'修改',
+        iconCls:'icon-edit',
+        handler:function(){
+        	alert("修改信息");
+        }
+	}]
+		
+		
+	</script>
+	<table class="easyui-datagrid" id="reg_dg" title="注册信息表" 
+       data-options="fitColumns:true,collapsible:true,rownumbers:true,url:'/educational/teaRegInfo',method:'get',pageSize:30,toolbar:toolbar">
+	    <thead>
+	        <tr>
+	        	<th data-options="field:'id',width:100,hidden:true">编号</th>
+	        	<th data-options="field:'account',width:100,">工号</th>
+	            <th data-options="field:'regTime',width:100,
+	            formatter: function(value,row,index){
+	            	return formatDatebox(row.regTime);
+                }">注册时间</th>
+	            <th data-options="field:'regCode',width:100">注册码</th>
+	            <th data-options="field:'teacher.title',width:100,
+	             formatter: function(value,row,index){
+	            	return row.teacher.title;
+                }">职称</th>
+	        </tr>
+	    </thead>
+	</table>
+	
+</body>
+</html>

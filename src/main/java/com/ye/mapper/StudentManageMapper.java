@@ -19,9 +19,8 @@ public interface StudentManageMapper {
 	/*插入学生用户以及学生详细信息*/
 	@Insert("insert into user values(default,#{account},#{password},#{name},#{sex},#{phone},#{email},#{regTime},#{regCode},#{rid})")
 	public int insStudent(User user);
-	@Insert("insert into student_detail values(default,#{birth},#{nation},#{politicsStatus},#{dept},#{major},#{address},#{identity},#{headPhoto},#{uid})")
+	@Insert("insert into student values(default,#{birth},#{nation},#{politicsStatus},#{dept},#{major},#{grade},#{address},#{identity},#{headPhoto},#{uid})")
 	public int insStudentDetail(Student stu);
-	
 	@Select("select id from user where regCode=#{0}")
 	public int selByRegCode(String regCode);
 	
@@ -34,6 +33,6 @@ public interface StudentManageMapper {
 	/*根据用户ID修改用户信息*/
 	@Update("update user set account=#{account},name=#{name},sex=#{sex},phone=#{phone},email=#{email} where id=#{id}")
 	public int updStudent(User user);
-	@Update("update student_detail set birth=#{birth},nation=#{nation},politicsStatus=#{politicsStatus},dept=#{dept},major=#{major},address=#{address},identity=#{identity} where uid=#{uid}")
+	@Update("update student set birth=#{birth},nation=#{nation},politicsStatus=#{politicsStatus},dept=#{dept},major=#{major},grade=#{grade},address=#{address},identity=#{identity} where uid=#{uid}")
 	public int updStudentDetail(Student stu);
 }

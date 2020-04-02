@@ -1,16 +1,22 @@
 package com.ye.service;
 
-import javax.servlet.http.HttpSession;
 
 import com.ye.pojo.EasyUIDatagrid;
 
 public interface RegisterInfoService {
 	/**
-	 * 根据uid分页查询
+	 * 根据用户ID查询学生注册信息
 	 * @param uid
 	 * @param pageStart
 	 * @param pageSize
 	 * @return
 	 */
-	public EasyUIDatagrid selByPage(int pageStart,int pageSize,HttpSession session);
+	public EasyUIDatagrid selStuRegInfoById(int page,int rows,int uid);
+	
+	/**
+	 * 根据用户ID查询教师注册信息
+	 * @param uid
+	 * @return
+	 */
+	public EasyUIDatagrid selTeaRegInfoById(int id);
 }

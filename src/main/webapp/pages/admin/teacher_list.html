@@ -2,15 +2,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>学生信息管理</title>
+<title>教师信息管理</title>
 </head>
 <body>
 	<script type="text/javascript">
 		$(function(){
-			$('#admin_stu_dg').datagrid({
-			    url:'/educational/admin/stuList',
+			$('#admin_tea_dg').datagrid({
+			    url:'/educational/admin/teaList',
 			    iconCls:'icon-more',
-			    title:'学生用户信息',
+			    title:'教师用户信息',
 			    rownumbers:true,//行号
 			    fitColumns:true,
 			    striped:true,
@@ -19,11 +19,11 @@
 			    columns:[[
 			    	{field:'checkbox',checkbox: true,width:50},
 			    	{field:'id',title:'ID',hidden:true},
-			    	{field:'account',title:'学号',width:100,align:'center',},
+			    	{field:'account',title:'工号',width:100,align:'center',},
 			        {field:'name',title:'姓名',width:100,align:'center',},
 			        {field:'sex',title:'性别',width:100,align:'center',},
 			        {field:'phone',title:'手机号码',width:100,align:'center',},
-			        {field:'email',title:'邮箱',width:100,align:'center',},
+			        {field:'email',title:'邮箱',width:120,align:'center',},
 			        {field:'operation',title:'操作',width:100,align:'center',
 			        	formatter: function(value,row,index){
 							return "<a href='#'>详细信息</a>";
@@ -36,14 +36,14 @@
 			        iconCls: 'icon-add',
 			        handler: function(){
 			        	//添加新的用户
-			        	$('#add_stu_window').window({
+			        	$('#add_tea_window').window({
 			        	    width:600,
 			        	    height:550,
-			        	    title:'添加学生用户',
+			        	    title:'添加教师用户',
 			        	    minimizable:false,
 			        	    maximizable:false,
 			        	    collapsible:false,
-			        	    href:'/educational/pages/admin/student_add.html',
+			        	    href:'/educational/pages/admin/teacher_add.html',
 			        	});
 			        }
 			    },'-',{
@@ -51,15 +51,15 @@
 			        iconCls: 'icon-edit',
 			        handler: function(){
 			        	//修改用户信息
-			        	if($("#admin_stu_dg").datagrid("getSelections").length==1){
-			        		$('#edit_stu_dialog').dialog({    
-							    title: '修改学生用户信息',    
+			        	if($("#admin_tea_dg").datagrid("getSelections").length==1){
+			        		$('#edit_tea_dialog').dialog({    
+							    title: '修改教师用户信息',    
 							    width: 600,    
 							    height: 550,    
 							    cache: false,    
-							    href: '/educational/pages/admin/student_edit.html',
+							    href: '/educational/pages/admin/teacher_edit.html',
 							    onLoad:function(){
-				        	    	$("#stu_user_id").val($("#admin_stu_dg").datagrid("getSelected").id);
+				        	    	$("#tea_user_id").val($("#admin_tea_dg").datagrid("getSelected").id);
 				        	    },
 							});
 			        	}else{
@@ -75,10 +75,10 @@
 			        	if(ids.length>0){
 			        		$.messager.confirm('确认','您确认想要删除用户吗？',function(r){
 			        		    if (r){
-			        		        $.get("/educational/admin/delStudent",{ids:ids},function(info){
+			        		        $.get("/educational/admin/delTeacher",{ids:ids},function(info){
 			        		        	if(info.flag){
 			        		        		$.messager.alert('系统信息',info.data,'info',function(){
-			        		        			$("#admin_stu_dg").datagrid("reload");
+			        		        			$("#admin_tea_dg").datagrid("reload");
 			        		        		});
 			        		        	}else{
 			        		        		$.messager.alert('系统信息',info.errorMsg);
@@ -98,7 +98,7 @@
 		function getSelectionsIds(){
 			
 			var ids = new Array();
-			var rows = $('#admin_stu_dg').datagrid('getSelections');
+			var rows = $('#admin_tea_dg').datagrid('getSelections');
 			
 			for(var i=0; i<rows.length; i++){
 				ids.push(rows[i].id);
@@ -108,14 +108,14 @@
 		
 		
 	</script>
-	<table id="admin_stu_dg"></table>
+	<table id="admin_tea_dg"></table>
 	
 	
 	<!-- 添加用户窗口 -->
-	<div id="add_stu_window"></div>
+	<div id="add_tea_window"></div>
 	
 	<!-- 修改用户信息窗口 -->
-	<div id="edit_stu_dialog"></div>
+	<div id="edit_tea_dialog"></div>
 	
 </body>
 </html>

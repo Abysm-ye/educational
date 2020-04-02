@@ -28,6 +28,8 @@
 		<property name="dataSource" ref="dataSource"></property>
 		<!-- 起别名 -->
 		<property name="typeAliasesPackage" value="com.ye.pojo"></property>
+		<!-- 加载mybatis分页插件配置文件 -->
+		<property name="configLocation" value="classpath:mybatis.xml"></property>
 	</bean>
 	<!-- 扫描器 -->
 	<bean id="" class="org.mybatis.spring.mapper.MapperScannerConfigurer">

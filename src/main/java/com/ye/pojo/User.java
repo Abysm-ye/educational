@@ -17,6 +17,7 @@ public class User implements Serializable{
 	private int rid;
 	private Role role;
 	private Student student;
+	private Teacher teacher;
 	
 	public int getId() {
 		return id;
@@ -89,6 +90,12 @@ public class User implements Serializable{
 	}
 	public void setStudent(Student student) {
 		this.student = student;
+	}
+	public Teacher getTeacher() {
+		return teacher;
+	}
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
 	}
 	
 	

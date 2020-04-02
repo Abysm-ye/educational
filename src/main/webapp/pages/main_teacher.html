@@ -37,7 +37,7 @@
 		}
 		//顶部显示用户信息
 		$.get("/educational/getUser",function(user){
-			$("#user_top").html("欢迎您！"+user.name+"同学<a id='exit_a' href='javascript:void(0);' style='margin-left:20px;' onclick='exit();'>退出</a>");
+			$("#user_top").html("欢迎您！"+user.name+"老师<a id='exit_a' href='javascript:void(0);' style='margin-left:20px;' onclick='exit();'>退出</a>");
 		})
 	})
 	
@@ -69,51 +69,36 @@
     	</div>
 	</div>
 	<div data-options="region:'west',title:'导航菜单',split:true" style="width:250px;">
-		<div id="accordionMenu" class="easyui-accordion" data-options="fit:true">
+		<div id="accordionMenu" class="easyui-accordion" data-options="fit:true,selected:true">
 			<div title="个人信息"  style="overflow:auto;padding:20px;">
 				<ul id="tree_menu1" class="easyui-tree">
-					<li data-options="attributes:{'url':'student/stu_basicInfo.html'}">
+					<li data-options="attributes:{'url':'teacher/tea_basicInfo.html'}">
         				<span  >基本信息</span>
     				</li>
-    				<li data-options="attributes:{'url':'student/stu_register.html'}">
+    				<li data-options="attributes:{'url':'teacher/tea_register.html'}">
         				<span  >注册信息</span>
     				</li>
 				</ul>
     		</div>
-    		<div title="学生成绩"  style="padding:20px;">
+    		<div title="学生成绩信息管理"  style="padding:20px;">
            		<ul id="tree_menu2" class="easyui-tree">
-					<li data-options="attributes:{'url':'student/viewScore.html'}">
-        				<span  >查看成绩</span>
+					<li data-options="attributes:{'url':'teacher/viewScore.html'}">
+        				<span  >成绩信息</span>
     				</li>
 				</ul>
     		</div>
-    		<div title="网上选课"  style="padding:20px;">
-           		<ul id="tree_menu3" class="easyui-tree">
-					<li data-options="attributes:{'url':'student/selCourse.html'}">
-        				<span  >选课</span>
-    				</li>
-    				<li data-options="attributes:{'url':'student/course.html'}"> 
-        				<span  >已选课程</span>
-    				</li>
-				</ul>
-    		</div>
+    		
     		<div title="教学安排"  style="padding:20px;">
            		<ul id="tree_menu4" class="easyui-tree">
-					<li data-options="attributes:{'url':'student/timetable.html'}">
+					<li data-options="attributes:{'url':'teacher/timetable.html'}">
         				<span  >课程表</span>
     				</li>
 				</ul>
     		</div>
-    		<div title="教材信息"  style="padding:20px;">
-           		<ul id="tree_menu5" class="easyui-tree">
-					<li data-options="attributes:{'url':'student/textbook.html'}">
-        				<span  >教材</span>
-    				</li>
-				</ul>
-    		</div>
+    		
     		<div title="其它"  style="padding:20px;">
            		<ul id="tree_menu6" class="easyui-tree">
-					<li data-options="attributes:{'url':'student/stu_changePwd.html'}">
+					<li data-options="attributes:{'url':'teacher/tea_changePwd.html'}">
         				<span  >修改密码</span>
     				</li>
 				</ul>

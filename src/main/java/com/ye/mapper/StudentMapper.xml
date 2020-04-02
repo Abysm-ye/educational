@@ -17,7 +17,7 @@
 	<select id="selStuInfoById" resultMap="stu_info">
 		select u.*,s.id sid,s.birth,s. nation,s.politicsStatus,s.dept,s.major,s.address,s.identity,s.headPhoto
 		from user u 
-		LEFT JOIN student_detail s on u.id=s.uid 
+		LEFT JOIN student s on u.id=s.uid 
 		WHERE u.id=#{id};
 	</select>
 </mapper>

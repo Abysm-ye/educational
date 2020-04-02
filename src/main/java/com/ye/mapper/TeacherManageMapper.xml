@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.mapper.TeacherManageMapper">
+	<delete id="delTeaUser">
+		delete from user where id in
+		<foreach collection="array" item="ids" open="(" close=")" separator=",">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	<resultMap type="user" id="edit_map">
+		<result column="birth" property="teacher.birth"/>
+		<result column="nation" property="teacher.nation"/>
+		<result column="politicsStatus" property="teacher.politicsStatus"/>
+		<result column="title" property="teacher.title"/>
+		<result column="address" property="teacher.address"/>
+		<result column="identity" property="teacher.identity"/>
+	</resultMap>
+	<select id="selTeaUserById" resultMap="edit_map">
+		select u.*,t.id tid,t.birth,t.nation,t.politicsStatus,t.title,t.address,t.identity
+		from user u 
+		LEFT JOIN teacher t on u.id=t.uid 
+		WHERE u.id=#{0}
+	</select>
+</mapper>

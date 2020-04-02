@@ -6,7 +6,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class Student implements Serializable{
+public class Teacher implements Serializable{
+	
 	private int id;
 	
 	@DateTimeFormat(pattern="yyyy-MM-dd")
@@ -15,12 +16,11 @@ public class Student implements Serializable{
 	
 	private String nation;
 	private String politicsStatus;
-	private String dept;
-	private String major;
-	private String grade;
+	private String title;//职称
 	private String address;
 	private String identity;
 	private String headPhoto;
+	
 	//关联属性
 	private int uid;
 	private User user;
@@ -58,23 +58,11 @@ public class Student implements Serializable{
 	public void setPoliticsStatus(String politicsStatus) {
 		this.politicsStatus = politicsStatus;
 	}
-	public String getDept() {
-		return dept;
+	public String getTitle() {
+		return title;
 	}
-	public void setDept(String dept) {
-		this.dept = dept;
-	}
-	public String getMajor() {
-		return major;
-	}
-	public void setMajor(String major) {
-		this.major = major;
-	}
-	public String getGrade() {
-		return grade;
-	}
-	public void setGrade(String grade) {
-		this.grade = grade;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getAddress() {
 		return address;

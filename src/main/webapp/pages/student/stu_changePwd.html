@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>修改密码</title>
+</head>
+<body>
+<link href="/educational/css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+function check(){
+	if($("#oldPwd").val()==""){
+		alert("旧密码不能为空！");
+		return false;
+	}else if($("#newPwd").val()==""){
+		alert("新密码不能为空！");
+		return false;
+	}else if($("#confPwd").val()==""){
+		alert("确认密码不能为空！");
+		return false;
+	}else if($("#newPwd").val()!=$("#confPwd").val()){
+		alert("两次密码不一致！");
+		return false;
+	}else{
+		return true;
+	}
+}
+//校验密码修改
+$(function(){
+	$("#password_form").submit(function(){
+		var newPwd=$("#newPwd").val();
+		var oldPwd=$("#oldPwd").val();
+		if(check()){
+			$.get("/educational/modifyPwd",{newPwd:newPwd,oldPwd:oldPwd},function(flag){
+				if(flag){
+					//密码修改成功
+					$.messager.alert('系统信息','密码修改成功！','info',function(){
+						location.href="/educational/index.html";
+					});
+				}else{
+					//密码修改失败
+					$.messager.alert('系统信息','密码输入错误！','info',function(){
+						
+					});
+				}
+			})
+		}
+		return false;
+	})
+	
+})
+</script>
+    
+    <div class="formbody">
+	    <div class="formtitle"><span>修改密码</span></div>
+	    <form action="/educational/modifyPwd" method="post" id="password_form" target="_top">
+	    <ul class="forminfo">
+	    <li><label>旧密码</label><input name="oldPwd" id="oldPwd" type="password" class="dfinput" /><i></i></li>
+	    <li><label>新密码</label><input name="newPwd" id="newPwd" type="password" class="dfinput" /><i></i></li>
+	    <li><label>确认密码</label><input id="confPwd" type="password" class="dfinput" /><i></i></li>
+	    <li>
+	    	<label>&nbsp;</label><input type="submit" class="btn" value="修改"/>
+	    	<input type="reset" class="btn" value="重置"/>
+	    </li>
+	    </ul>
+	    </form>    
+	</div>
+</body>
+</html>

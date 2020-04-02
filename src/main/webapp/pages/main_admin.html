@@ -69,15 +69,22 @@
     	</div>
 	</div>
 	<div data-options="region:'west',title:'导航菜单',split:true" style="width:250px;">
-		<div id="accordionMenu" class="easyui-accordion" data-options="fit:true">
-			<div title="学生信息管理"  style="overflow:auto;padding:20px;">
+		<div id="accordionMenu" class="easyui-accordion" data-options="fit:true,selected:false,">
+			<div title="学生信息管理"  style="overflow:auto;padding:20px;" >
 				<ul id="tree_menu1" class="easyui-tree">
 					<li data-options="attributes:{'url':'admin/student_manage.html'}">
-        				<span  >用户信息</span>
+        				<span  >学生用户信息</span>
     				</li>
     				<!-- <li data-options="attributes:{'url':''}">
         				<span  >修改学生信息</span>
     				</li> -->
+				</ul>
+    		</div>
+    		<div title="教师信息管理"  style="overflow:auto;padding:20px;" >
+				<ul id="tree_menu2" class="easyui-tree">
+					<li data-options="attributes:{'url':'admin/teacher_list.html'}">
+        				<span  >教师用户信息</span>
+    				</li>
 				</ul>
     		</div>
 		</div>

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ye.mapper.RegisterInfoMapper">
-	<resultMap type="student" id="stu_list">
+	<resultMap type="student" id="stu_reginfo">
 		<result column="id" property="id"/>
 		<result column="dept" property="dept"/>
 		<result column="major" property="major"/>
@@ -16,11 +16,27 @@
 			<result column="regCode" property="regCode"/>
 		</association>
 	</resultMap>
-	<select id="selByPage" resultMap="stu_list">
+	<select id="selStuById" resultMap="stu_reginfo">
 		select s.id,s.dept,s.major,u.account,u.regTime,u.regCode 
-		from student_detail s 
+		from student s 
 		left join user u on s.uid=u.id 
-		where uid=#{arg0} 
-		limit #{arg1},#{arg2}
+		where s.uid=#{arg0}
+	</select>
+	
+	
+	<resultMap type="user" id="tea_reginfo">
+		<result column="id" property="id"/>
+		<result column="account" property="account"/>
+		<result column="regTime" property="regTime"/>
+		<result column="regCode" property="regCode"/>
+		<association property="teacher">
+			<result column="title" property="title"/>
+		</association>
+	</resultMap>
+	<select id="selTeaById" resultMap="tea_reginfo">
+		select u.id,u.account,u.regTime,u.regCode,t.title
+		from user u 
+		left join teacher t on u.id=t.uid
+		where u.id=#{arg0}
 	</select>
 </mapper>

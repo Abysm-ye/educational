@@ -125,10 +125,12 @@ function identityValidate(value) {
 		<div style="margin-top:10px;margin-left:200px;">
 			<label style="font-weight:bold;">姓名：</label><input name="user.name" type="text" class="easyui-validatebox" data-options="required:true,validType:'CHS'">
 		</div> 
-		<div style="margin-top:10px;text-align:center;">
-	    	<input class="easyui-radiobutton" name="user.sex" value="男" label="男：" checked="checked">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    	<input class="easyui-radiobutton" name="user.sex" value="女" label="女：">
+		
+		<div class="radioBox" style="margin-top:10px;margin-left:200px;">
+		　　<input type="radio" value="男" name="user.sex" id="stu_man_add"><label for="stu_man_add">男</label>
+		　　<input type="radio" value="女" name="user.sex" id="stu_woman_add"><label for="stu_woman_add">女</label>
 		</div>
+		
 		<div style="margin-top:10px;margin-left:200px;">
 			<label style="font-weight:bold;">出生年月：</label><input id="birth" name="birth" type="text" class="easyui-datebox" required="required">
 		</div>

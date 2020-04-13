@@ -25,37 +25,48 @@ public class TeacherManageServiceImpl implements TeacherManageService{
 	
 	@Override
 	public ResultInfo addTeaUser(User user) {
-		//封装user数据对象
-		user.setPassword("111111");
-		user.setRegTime(new Date());
-		user.setRegCode(UUIDUtil.getUuid());
-		user.setRid(2);
-		//封装teacher对象数据
-		Teacher tea=new Teacher();
-		tea.setBirth(user.getTeacher().getBirth());
-		tea.setNation(user.getTeacher().getNation());
-		tea.setPoliticsStatus(user.getTeacher().getPoliticsStatus());
-		tea.setTitle(user.getTeacher().getTitle());
-		tea.setAddress(user.getTeacher().getAddress());
-		tea.setIdentity(user.getTeacher().getIdentity());
-		tea.setHeadPhoto(user.getTeacher().getHeadPhoto());
-		
-		int index=teacherManageMapper.insTeaUser(user);
-		if(index>0) {
-			tea.setUid(teacherManageMapper.selByRegCode(user.getRegCode()));
-			
-			index+=teacherManageMapper.insTeacher(tea);
-		}
-		//封装响应数据
+		//创建响应信息对象
 		ResultInfo info = new ResultInfo();
-		if(index==2) {
-			info.setFlag(true);
-			info.setData("添加教师用户成功！");
+		
+		User u=teacherManageMapper.selUserByAccount(user.getAccount());
+		if(u!=null) {
+			info.setFlag(false);
+			info.setErrorMsg("添加用户失败，该教师工号已存在！");
+			return info;
+		}else {
+			
+			//封装user数据对象
+			user.setPassword("111111");
+			user.setRegTime(new Date());
+			user.setRegCode(UUIDUtil.getUuid());
+			user.setRid(2);
+			//封装teacher对象数据
+			Teacher tea=new Teacher();
+			tea.setBirth(user.getTeacher().getBirth());
+			tea.setNation(user.getTeacher().getNation());
+			tea.setPoliticsStatus(user.getTeacher().getPoliticsStatus());
+			tea.setTitle(user.getTeacher().getTitle());
+			tea.setAddress(user.getTeacher().getAddress());
+			tea.setIdentity(user.getTeacher().getIdentity());
+			tea.setHeadPhoto(user.getTeacher().getHeadPhoto());
+			
+			int index=teacherManageMapper.insTeaUser(user);
+			if(index>0) {
+				tea.setUid(teacherManageMapper.selByRegCode(user.getRegCode()));
+				
+				index+=teacherManageMapper.insTeacher(tea);
+			}
+			//封装响应数据
+			
+			if(index==2) {
+				info.setFlag(true);
+				info.setData("添加教师用户成功！");
+				return info;
+			}
+			info.setFlag(false);
+			info.setErrorMsg("添加教师用户失败，请联系维护人员！");
 			return info;
 		}
-		info.setFlag(false);
-		info.setErrorMsg("添加教师用户失败，请联系维护人员！");
-		return info;
 	}
 
 	@Override

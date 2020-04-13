@@ -97,9 +97,9 @@ function identityValidate(value) {
 			$("#stu_name").textbox("setValue",user.name);
 			
 			if(user.sex=="男"){
-				$("#man").attr("checked", true);
+				$("#stu_man").attr("checked", true);
 			}else if(user.sex=="女"){
-				$("#woman").attr("checked", true);
+				$("#stu_woman").attr("checked", true);
 			}
 			
 			$("#stu_phone").textbox("setValue",user.phone);
@@ -150,10 +150,12 @@ function identityValidate(value) {
 		<div style="margin-top:10px;margin-left:200px;">
 			<label style="font-weight:bold;">姓名：</label><input id="stu_name" name="user.name" type="text" class="easyui-textbox" data-options="required:true,validType:'CHS'">
 		</div> 
-		<div style="margin-top:10px;text-align:center;">
-	    	<input id="stu_man" class="easyui-radiobutton" name="user.sex" value="男" label="男：" checked="checked">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    	<input id="stu_woman" class="easyui-radiobutton" name="user.sex" value="女" label="女：">
+		
+		<div class="radioBox" style="margin-top:10px;margin-left:200px;">
+		　　<input type="radio" value="男" name="user.sex" id="stu_man"><label for="stu_man">男</label>
+		　　<input type="radio" value="女" name="user.sex" id="stu_woman"><label for="stu_woman">女</label>
 		</div>
+		
 		<div style="margin-top:10px;margin-left:200px;">
 			<label style="font-weight:bold;">出生年月：</label><input id="stu_birth" name="birth" type="text" class="easyui-datebox" data-options="required:true,">
 		</div>

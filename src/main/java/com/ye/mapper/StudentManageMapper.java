@@ -16,6 +16,9 @@ public interface StudentManageMapper {
 	@Select("select count(*) from user where rid=#{0}")
 	public int selCount(int rid);
 	
+	/*根据学号查询学生信息*/
+	@Select("select * from user where account=#{0}")
+	public User selUserByAccount(String account);
 	/*插入学生用户以及学生详细信息*/
 	@Insert("insert into user values(default,#{account},#{password},#{name},#{sex},#{phone},#{email},#{regTime},#{regCode},#{rid})")
 	public int insStudent(User user);

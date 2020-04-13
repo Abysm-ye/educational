@@ -38,27 +38,37 @@ public class StudentManageServiceImpl implements StudentManageService{
 	@Override
 	public ResultInfo addStudentUser(Student stu) {
 		
-		//封装User对象数据
-		User user = new User();
-		user.setAccount(stu.getUser().getAccount());
-		user.setPassword("111111");
-		user.setName(stu.getUser().getName());
-		user.setSex(stu.getUser().getSex());
-		user.setPhone(stu.getUser().getPhone());
-		user.setEmail(stu.getUser().getEmail());
-		user.setRegTime(new Date());
-		user.setRegCode(UUIDUtil.getUuid());
-		user.setRid(1);
+		ResultInfo info = new ResultInfo();
 		
-		/*student.getUser().setPassword("111111");
-		student.getUser().setRegTime(formatter.format(new Date()));
-		//设置注册码
-		student.getUser().setRegCode(UUIDUtil.getUuid());
-		student.getUser().setRid(1);*/
-		
-		int index=studentManageMapper.insStudent(user);
-		if(index>0) {
-			/*//格式化生日
+		//进行判断，是否存在该用户
+		User u=studentManageMapper.selUserByAccount(stu.getUser().getAccount());
+		if(u!=null) {
+			info.setFlag(false);
+			info.setErrorMsg("添加用户失败，该学生学号已经存在！");
+			return info;
+		}else {
+			
+			//封装User对象数据
+			User user = new User();
+			user.setAccount(stu.getUser().getAccount());
+			user.setPassword("111111");
+			user.setName(stu.getUser().getName());
+			user.setSex(stu.getUser().getSex());
+			user.setPhone(stu.getUser().getPhone());
+			user.setEmail(stu.getUser().getEmail());
+			user.setRegTime(new Date());
+			user.setRegCode(UUIDUtil.getUuid());
+			user.setRid(1);
+			
+			/*student.getUser().setPassword("111111");
+			student.getUser().setRegTime(formatter.format(new Date()));
+			//设置注册码
+			student.getUser().setRegCode(UUIDUtil.getUuid());
+			student.getUser().setRid(1);*/
+			
+			int index=studentManageMapper.insStudent(user);
+			if(index>0) {
+				/*//格式化生日
 			String[] births=stu.getBirth().split("/");
 			StringBuffer sb = new StringBuffer();
 			sb.append(births[2]+"-");
@@ -68,22 +78,23 @@ public class StudentManageServiceImpl implements StudentManageService{
 			
 			//格式化后进行赋值
 			stu.setBirth(birth);*/
+				
+				//通过注册码查询user的id属性
+				stu.setUid(studentManageMapper.selByRegCode(user.getRegCode()));
+				
+				index += studentManageMapper.insStudentDetail(stu);
+			}
 			
-			//通过注册码查询user的id属性
-			stu.setUid(studentManageMapper.selByRegCode(user.getRegCode()));
-			
-			index += studentManageMapper.insStudentDetail(stu);
-		}
-		ResultInfo info = new ResultInfo();
-		if(index==2) {//成功时
-			info.setFlag(true);
-			info.setData("添加学生用户成功！");
+			if(index==2) {//成功时
+				info.setFlag(true);
+				info.setData("添加学生用户成功！");
+				return info;
+			}
+			//失败时
+			info.setFlag(false);
+			info.setErrorMsg("添加学生用户失败，请联系维护人员！");
 			return info;
 		}
-		//失败时
-		info.setFlag(false);
-		info.setErrorMsg("添加学生用户失败，请联系维护人员！");
-		return info;
 	}
 
 	@Override

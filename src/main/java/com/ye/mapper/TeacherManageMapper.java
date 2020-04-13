@@ -11,6 +11,9 @@ import com.ye.pojo.User;
 
 public interface TeacherManageMapper {
 	
+	/*根据工号查询教师信息*/
+	@Select("select * from user where account=#{0}")
+	public User selUserByAccount(String account);
 	/*插入教师用户信息*/
 	@Insert("insert into user values(default,#{account},#{password},#{name},#{sex},#{phone},#{email},#{regTime},#{regCode},#{rid})")
 	public int insTeaUser(User user);

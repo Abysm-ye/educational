@@ -20,4 +20,48 @@
 		LEFT JOIN student s on u.id=s.uid 
 		WHERE u.id=#{id};
 	</select>
+	
+	<resultMap type="course" id="stu_course">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="type" property="type"/>
+		<result column="credit" property="credit"/>
+		<result column="checkType" property="checkType"/>
+		<result column="time" property="time"/>
+		<result column="timeweek" property="timeweek"/>
+		<result column="site" property="site"/>
+		<collection property="users" select="com.ye.mapper.StudentMapper.selTeaName" column="id"></collection>
+	</resultMap>
+	<select id="selStuCourse" resultMap="stu_course">
+		select * from course where id in(
+			select courseId from course_student where studentId in(
+			select id from student where uid=#{0}))
+	</select>
+	
+	
+	<resultMap type="course" id="select_course">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="type" property="type"/>
+		<result column="credit" property="credit"/>
+		<result column="checkType" property="checkType"/>
+		<result column="time" property="time"/>
+		<result column="timeweek" property="timeweek"/>
+		<result column="site" property="site"/>
+		<collection property="users" select="com.ye.mapper.StudentMapper.selTeaName" column="id"></collection>
+	</resultMap>
+	<select id="selElective" resultMap="select_course">
+		select * from course where type='选修课' 
+	</select>
+	
+	<resultMap type="score" id="score_map">
+		<result column="courseId" property="courseId"/>
+		<result column="score" property="score"/>
+		<result column="remark" property="remark"/>
+		<collection property="courses" select="com.ye.mapper.StudentMapper.selCourseByCourseId" column="courseId"></collection>
+		<collection property="users" select="com.ye.mapper.StudentMapper.selTeaName" column="courseId"></collection>
+	</resultMap>
+	<select id="selScore" resultMap="score_map">
+		select * from score where studentId in(select id from student where uid=#{0})
+	</select>
 </mapper>

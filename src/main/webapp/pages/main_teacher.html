@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" type="text/css" href="/educational/js/easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="/educational/js/easyui/themes/icon.css">
+<link href="/educational/css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/educational/js/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="/educational/js/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/educational/js/easyui/locale/easyui-lang-zh_CN.js"></script>
@@ -69,7 +70,7 @@
     	</div>
 	</div>
 	<div data-options="region:'west',title:'导航菜单',split:true" style="width:250px;">
-		<div id="accordionMenu" class="easyui-accordion" data-options="fit:true,selected:true">
+		<div id="accordionMenu" class="easyui-accordion" data-options="fit:true,selected:false">
 			<div title="个人信息"  style="overflow:auto;padding:20px;">
 				<ul id="tree_menu1" class="easyui-tree">
 					<li data-options="attributes:{'url':'teacher/tea_basicInfo.html'}">
@@ -82,7 +83,7 @@
     		</div>
     		<div title="学生成绩信息管理"  style="padding:20px;">
            		<ul id="tree_menu2" class="easyui-tree">
-					<li data-options="attributes:{'url':'teacher/viewScore.html'}">
+					<li data-options="attributes:{'url':'teacher/score_manage.html'}">
         				<span  >成绩信息</span>
     				</li>
 				</ul>
@@ -90,7 +91,7 @@
     		
     		<div title="教学安排"  style="padding:20px;">
            		<ul id="tree_menu4" class="easyui-tree">
-					<li data-options="attributes:{'url':'teacher/timetable.html'}">
+					<li data-options="attributes:{'url':'teacher/tea_timetable.html'}">
         				<span  >课程表</span>
     				</li>
 				</ul>

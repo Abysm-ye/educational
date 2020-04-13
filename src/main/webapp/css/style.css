@@ -86,3 +86,35 @@
             width: 200px;
             font-size: 20px;
         }
+        
+
+/* 单选框 */       
+.radioBox input{
+   display: none;
+}
+.radioBox label{
+    cursor: pointer;
+    position: relative;
+}
+.radioBox label::before{
+    display: inline-block;
+    content: "";
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(193, 200, 211, 1);
+    margin-right: 6px;
+    vertical-align: middle;
+}
+/* 选中 */
+.radioBox input:checked+label::after{
+    display: inline-block;
+    content: "";
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    left: 4px;
+    bottom: 4px;
+    background-color: rgba(56, 85, 127, 1);
+}

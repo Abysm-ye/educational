@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>修改课程信息</title>
+</head>
+<body>
+
+<link rel="stylesheet" type="text/css" href="/educational/css/style.css">
+
+<script type="text/javascript">
+
+	$(function(){
+		
+		//表单提交
+		$('#edit_score_form').form({
+			url:'/educational/score/editScore',
+			onSubmit:function(){
+				return $(this).form('validate');
+			},
+			success:function(data){
+				var info=eval("("+data+")");
+				if(info.flag){
+					$("#edit_score_dialog").window("close");
+					$.messager.alert('系统信息',info.data,'info',function(){
+						$("#teacher_score_dg").datagrid("reload");
+					});
+				}else{
+					$.messager.alert('系统信息',info.errorMsg);
+				}
+			}
+		});
+	})
+
+	
+</script>
+
+	<h3 align="center">修改成绩</h3>
+	<hr>
+	<form id="edit_score_form" action="" method="post">
+		<input id="score_id" name="id" type="hidden">
+		<div>
+			<label style="font-weight:bold;">成绩：</label>
+			<input id="edit_score_numberbox" style="width: 200px; height: 30px;" name="score" class="easyui-numberbox" data-options="required:true,min:0,precision:1, missingMessage:'请填写正确的成绩' " />
+		</div>
+		<div>
+			<label style="font-weight:bold;">备注：</label>
+			<textarea id="score_remark" name="remark" style="width: 300px; height: 160px;" class="easyui-textbox" data-options="multiline:true" ></textarea>
+		</div>
+		<div style="text-align:center;">
+			<input id="editScore_btn" style="width:100px;margin-top:20px;" class="loginButton" type="submit" value="修改" />
+		</div>
+	</form>
+</body>
+</html>

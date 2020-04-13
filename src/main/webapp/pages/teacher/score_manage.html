@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>课程信息管理</title>
+</head>
+<body>
+	<script type="text/javascript">
+		$(function(){
+			$('#teacher_score_dg').datagrid({
+			    url:'/educational/score/showScore',
+			    iconCls:'icon-more',
+			    title:'成绩列表',
+			    rownumbers:true,//行号
+			    fitColumns:true,
+			    pagination:true,
+				pageList:[2,4,6,8,10],
+			    columns:[[
+			    	{field:'id',title:'ID',hidden:true},
+			        {field:'username',title:'学生',width:60,align:'center',formatter: function(value,row,index){
+		            		return row.users[0].name;
+	                	},
+			        },
+			        {field:'coursename',title:'课程',width:60,align:'center',formatter: function(value,row,index){
+		            		return row.courses[0].name;
+	                	},
+			        },
+			        {field:'score',title:'成绩',width:60,align:'center',},
+			        {field:'remark',title:'备注',width:60,align:'center',},
+			    ]],
+			    
+			    toolbar: [{
+			    	text:'添加',
+			        iconCls: 'icon-add',
+			        handler: function(){
+			        	//添加新的课程
+			        	$('#add_score_window').window({
+			        	    width:500,
+			        	    height:500,
+			        	    title:'添加学生成绩信息',
+			        	    minimizable:false,
+			        	    maximizable:false,
+			        	    collapsible:false,
+			        	    href:'/educational/pages/teacher/score_add.html',
+			        	});
+			        }
+			    },'-',{
+			    	text:'修改',
+			        iconCls: 'icon-edit',
+			        handler: function(){
+			        	//修改课程信息
+			        	if($("#teacher_score_dg").datagrid("getSelections").length==1){
+			        		$('#edit_score_dialog').dialog({    
+							    title: '修改成绩',    
+							    width: 400,    
+							    height: 350,    
+							    cache: false,    
+							    href: '/educational/pages/teacher/score_edit.html',
+							    onLoad:function(){
+							    	
+							    	var row=$("#teacher_score_dg").datagrid("getSelected")
+							    	
+							    	$("#score_id").val(row.id);
+							    	$("#edit_score_numberbox").numberbox("setValue",row.score)
+							    	$("#score_remark").textbox("setValue",row.remark)
+				        	    },
+							});
+			        	}else{
+			        		$.messager.alert('提示','请您选择一行数据！');
+			        	}
+			        }
+			    },'-',{
+			    	text:'删除',
+			    	iconCls: 'icon-remove',
+			        handler: function(){
+			        	//删除课程信息
+			        	var ids = getSelectionsIds();
+			        	if(ids.length>0){
+			        		$.messager.confirm('确认','您确认想要删除用户吗？',function(r){
+			        		    if (r){
+			        		        $.get("/educational/score/delScore",{ids:ids},function(info){
+			        		        	if(info.flag){
+			        		        		$.messager.alert('系统信息',info.data,'info',function(){
+			        		        			$("#teacher_score_dg").datagrid("reload");
+			        		        		});
+			        		        	}else{
+			        		        		$.messager.alert('系统信息',info.errorMsg);
+			        		        	}
+			        		        })
+			        		    }
+			        		});
+			        	}else{
+			        		$.messager.alert('提示','请您选择至少一行数据！');
+			        	} 
+			        }
+			    }],
+			})
+		})
+		
+		
+		//获取被选中的ID
+		function getSelectionsIds(){
+			
+			var ids = new Array();
+			var rows = $('#teacher_score_dg').datagrid('getSelections');
+			
+			for(var i=0; i<rows.length; i++){
+				ids.push(rows[i].id);
+			}
+			return ids;
+		}
+		
+	</script>
+	<!-- 数据列表 -->
+	<table id="teacher_score_dg"></table>
+	
+	<!-- 添加窗口 -->
+	<div id="add_score_window"></div>
+	
+	<!-- 修改信息窗口 -->
+	<div id="edit_score_dialog"></div>
+</body>
+</html>

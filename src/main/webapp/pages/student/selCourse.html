@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>课程信息管理</title>
+</head>
+<body>
+	<script type="text/javascript">
+		$(function(){
+			$('#select_course_dg').datagrid({
+			    url:'/educational/student/selCourseList',
+			    iconCls:'icon-more',
+			    title:'课程列表',
+			    rownumbers:true,
+			    fitColumns:true,
+			    pagination:true,
+				pageList:[2,4,6,8,10],
+			    columns:[[
+			    	{field:'id',title:'ID',hidden:true},
+			    	{field:'name',title:'课程名称',width:80,align:'center',},
+			        {field:'type',title:'类别',width:60,align:'center',},
+			        {field:'credit',title:'学分',width:50,align:'center',},
+			        {field:'checkType',title:'考核方式',width:60,align:'center',},
+			        {field:'time',title:'上课节次',width:200,align:'center',},
+			        {field:'timeweek',title:'上课周次',width:60,align:'center',},
+			        {field:'site',title:'上课地点',width:60,align:'center',},
+			       	{field:'user.name',title:'授课老师',width:60,align:'center',formatter: function(value,row,index){
+		            		return row.users[0].name;
+	                	},
+	                },
+			    ]],
+			    
+			    toolbar:[{
+			    	text:'选课',
+			        iconCls: 'icon-add',
+			        handler: function(){
+			        	//选课
+						if($("#select_course_dg").datagrid("getSelections").length==1){
+							
+							var courseId=$("#select_course_dg").datagrid("getSelected").id;
+							
+							$.messager.confirm('确认', '您确定要选修该门课程吗？', function(r){
+							    if (r){
+							    	$.get("/educational/student/addCourse",{courseId:courseId},function(info){
+							    		if(info.flag){
+							    			$.messager.alert('消息',info.data,'info',function(){
+							    				$("#select_course_dg").datagrid("reload");
+							    			});
+							    		}else{
+							    			$.messager.alert('提示',info.errorMsg,'info');
+							    		}
+									})
+							    }
+							});
+						}else{
+							$.messager.alert('提示','请选择一门课程！','info');
+						}
+			        	
+			        }
+			    }],
+			})
+			
+		})
+		
+		
+		
+	</script>
+	<!-- 数据列表 -->
+	<table id="select_course_dg"></table>
+	
+</body>
+</html>

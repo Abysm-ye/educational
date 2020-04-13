@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.mapper.ScoreMapper">
+
+	<delete id="delScore">
+		delete from score where id in
+		<foreach collection="array" item="ids" open="(" close=")" separator=",">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	<resultMap type="student" id="mymap">
+		<id column="id" property="id"/>
+		<result column="name" property="user.name"/>
+	</resultMap>
+	<select id="selStuIdAndName" resultMap="mymap">
+		select s.id,u.name from student s left join user u on s.uid=u.id
+			where s.id in(select studentId from course_student where courseId in(
+				select courseId from course_teacher where teacherId in(select id from teacher where uid=#{0})))
+	</select>
+	
+	<resultMap type="score" id="score_list">
+		<id column="id" property="id"/>
+		<result column="courseId" property="courseId"/>
+		<result column="studentId" property="studentId"/>
+		<result column="score" property="score"/>
+		<result column="remark" property="remark"/>
+		<collection property="users" select="com.ye.mapper.ScoreMapper.selStuName" column="studentId" ></collection>
+		<collection property="courses" select="com.ye.mapper.ScoreMapper.selCourseName" column="courseId" ></collection>
+	</resultMap>
+	<select id="selScore" resultMap="score_list">
+		select * from score 
+			where courseId in(select courseId from course_teacher where teacherId in(
+				select id from teacher where uid=#{0}))
+	</select>
+	
+	
+</mapper>

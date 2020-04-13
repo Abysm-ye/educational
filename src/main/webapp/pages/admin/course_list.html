@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>课程信息管理</title>
+</head>
+<body>
+	<script type="text/javascript">
+		$(function(){
+			$('#admin_course_dg').datagrid({
+			    url:'/educational/course/courseList',
+			    iconCls:'icon-more',
+			    title:'课程列表',
+			    rownumbers:true,//行号
+			    fitColumns:true,
+			    striped:true,
+			    pagination:true,
+				pageList:[2,4,6,8,10],
+			    columns:[[
+			    	{field:'checkbox',checkbox: true,width:50},
+			    	{field:'id',title:'ID',hidden:true},
+			    	{field:'name',title:'课程名称',width:80,align:'center',},
+			        {field:'type',title:'类别',width:60,align:'center',},
+			        {field:'credit',title:'学分',width:50,align:'center',},
+			        {field:'checkType',title:'考核方式',width:60,align:'center',},
+			        {field:'time',title:'上课节次',width:200,align:'center',},
+			        {field:'timeweek',title:'上课周次',width:60,align:'center',},
+			        {field:'site',title:'上课地点',width:60,align:'center',},
+			       	{field:'user.name',title:'授课老师',width:60,align:'center',formatter: function(value,row,index){
+		            		return row.users[0].name;
+	                	},
+	                },
+			    ]],
+			    
+			    toolbar: [{
+			    	text:'添加',
+			        iconCls: 'icon-add',
+			        handler: function(){
+			        	//添加新的课程
+			        	$('#add_course_window').window({
+			        	    width:600,
+			        	    height:550,
+			        	    title:'添加课程信息',
+			        	    minimizable:false,
+			        	    maximizable:false,
+			        	    collapsible:false,
+			        	    href:'/educational/pages/admin/course_add.html',
+			        	});
+			        }
+			    },'-',{
+			    	text:'修改',
+			        iconCls: 'icon-edit',
+			        handler: function(){
+			        	//修改课程信息
+			        	if($("#admin_course_dg").datagrid("getSelections").length==1){
+			        		$('#edit_course_dialog').dialog({    
+							    title: '修改课程信息',    
+							    width: 600,    
+							    height: 550,    
+							    cache: false,    
+							    href: '/educational/pages/admin/course_edit.html',
+							    onLoad:function(){
+							    	$("#course_id").val($("#admin_course_dg").datagrid("getSelected").id);
+							    	
+				        	    	$("#courseName").textbox("setValue",$("#admin_course_dg").datagrid("getSelected").name);
+				        	    	
+				        	    	$("#type").textbox("setValue",$("#admin_course_dg").datagrid("getSelected").type);
+				        	    	
+				        	    	$("#credit").textbox("setValue",$("#admin_course_dg").datagrid("getSelected").credit);
+				        	    	$("#checkType").textbox("setValue",$("#admin_course_dg").datagrid("getSelected").checkType);
+				        	    	$("#time").textbox("setValue",$("#admin_course_dg").datagrid("getSelected").time);
+				        	    	$("#timeweek").textbox("setValue",$("#admin_course_dg").datagrid("getSelected").timeweek);
+				        	    	
+				        	    	$("#site").textbox("setValue",$("#admin_course_dg").datagrid("getSelected").site);
+				        	    },
+							});
+			        	}else{
+			        		$.messager.alert('提示','请您选择一行数据！');
+			        	}
+			        }
+			    },'-',{
+			    	text:'删除',
+			    	iconCls: 'icon-remove',
+			        handler: function(){
+			        	//删除课程信息
+			        	var ids = getSelectionsIds();
+			        	if(ids.length>0){
+			        		$.messager.confirm('确认','您确认想要删除用户吗？',function(r){
+			        		    if (r){
+			        		        $.get("/educational/course/delCourse",{ids:ids},function(info){
+			        		        	if(info.flag){
+			        		        		$.messager.alert('系统信息',info.data,'info',function(){
+			        		        			$("#admin_course_dg").datagrid("reload");
+			        		        		});
+			        		        	}else{
+			        		        		$.messager.alert('系统信息',info.errorMsg);
+			        		        	}
+			        		        })
+			        		    }
+			        		});
+			        	}else{
+			        		$.messager.alert('提示','请您选择至少一行数据！');
+			        	} 
+			        }
+			    }],
+			});
+		})
+		
+		//获取被选中的ID
+		function getSelectionsIds(){
+			
+			var ids = new Array();
+			var rows = $('#admin_course_dg').datagrid('getSelections');
+			
+			for(var i=0; i<rows.length; i++){
+				ids.push(rows[i].id);
+			}
+			return ids;
+		}
+		
+		
+	</script>
+	<!-- 数据列表 -->
+	<table id="admin_course_dg"></table>
+	
+	
+	<!-- 添加窗口 -->
+	<div id="add_course_window"></div>
+	
+	<!-- 修改信息窗口 -->
+	<div id="edit_course_dialog"></div>
+	
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>课程信息管理</title>
+</head>
+<body>
+	<script type="text/javascript">
+		$(function(){
+			$('#teacher_course_dg').datagrid({
+			    url:'/educational/teacher/teaCourseList',
+			    iconCls:'icon-more',
+			    title:'课程列表',
+			    rownumbers:true,//行号
+			    fitColumns:true,
+			    columns:[[
+			    	{field:'id',title:'ID',hidden:true},
+			    	{field:'name',title:'课程名称',width:80,align:'center',},
+			        {field:'type',title:'类别',width:60,align:'center',},
+			        {field:'credit',title:'学分',width:50,align:'center',},
+			        {field:'checkType',title:'考核方式',width:60,align:'center',},
+			        {field:'time',title:'上课节次',width:200,align:'center',},
+			        {field:'timeweek',title:'上课周次',width:60,align:'center',},
+			        {field:'site',title:'上课地点',width:60,align:'center',},
+			    ]],
+			})
+		})
+		
+	</script>
+	<!-- 数据列表 -->
+	<table id="teacher_course_dg"></table>
+	
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>添加课程信息</title>
+
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/educational/css/style.css">
+
+<script type="text/javascript">
+	$(function(){
+		/* 页面加载时获取焦点 */
+		$("#courseName").focus();
+		
+		
+		$('#course_teacher').combobox({
+		    url:'/educational/course/showTea',
+		    valueField:'id',
+		    textField:'text'
+		});
+		
+		
+		$.extend($.fn.validatebox.defaults.rules, {
+			name: {// 验证名称，可以是中文或英文
+		        validator: function (value) {
+		          return /^[\Α-\￥]+$/i.test(value) | /^\w+[\w\s]+\w+$/i.test(value);
+		        },
+		        message: '可以输入中文或英文'
+		      },
+	    	intOrFloat : {// 验证整数或小数 
+	        	validator : function(value) { 
+	            	return /^\d+(\.\d+)?$/i.test(value); 
+	          	}, 
+	          	message : '请输入数字，并确保格式正确' 
+	      	}, 
+			numberCheck : {//验证学号，只能输入数字
+			    validator : function(value) {
+			    	return /^[0-9]+$/.test(value);
+			    },
+			    message : "只能输入数字"
+			},
+			CHS : {//验证姓名，只能输入汉字
+			    validator : function(value) {
+			    	return /^[\u0391-\uFFE5]+$/.test(value);
+			    },
+			    message : "只能输入汉字"
+			},
+		});
+		
+		//表单提交
+		$('#add_course_form').form({
+			url:'/educational/course/addCourse',
+			onSubmit:function(){
+				
+				return $(this).form('validate');
+			},
+			success:function(data){
+				var info=eval("("+data+")");
+				if(info.flag){
+					$("#add_course_window").window("close");
+					$.messager.alert('系统信息',info.data,'info',function(){
+						$("#admin_course_dg").datagrid("reload");
+					});
+				}else{
+					$.messager.alert('系统信息',info.errorMsg);
+				}
+			}
+		});
+		
+	})
+</script>
+
+	<h3 align="center">添加课程</h3>
+	<hr>
+	<form id="add_course_form" action="" method="post">
+		<div style="margin-top:20px;margin-left:200px;">
+			<label style="font-weight:bold;">课程名称：</label><input id="courseName" name="name" type="text"  class="easyui-textbox" data-options="required:true,validType:'name'">
+		</div>
+		<div style="margin-top:10px;margin-left:200px;">
+			<label style="font-weight:bold;">类别：</label><input name="type" type="text" class="easyui-textbox" data-options="required:true,validType:'CHS'">
+		</div> 
+		
+		<div style="margin-top:10px;margin-left:200px;">
+			<label style="font-weight:bold;">授课老师：</label><input id="course_teacher" name="tid" value="-----请选择-----">
+		</div>
+		
+		<div style="margin-top:10px;margin-left:200px;">
+			<label style="font-weight:bold;">学分：</label><input name="credit" type="text" class="easyui-textbox" data-options="required:true,validType:'intOrFloat'">
+		</div>
+		<div style="margin-top:10px;margin-left:200px;">
+			<label style="font-weight:bold;">考核方式：</label><input name="checkType" type="text" class="easyui-textbox" data-options="validType:'CHS'">	
+		</div>
+		<div style="margin-top:10px;margin-left:200px;">
+			<label style="font-weight:bold;">上课节次：</label><input name="time" type="text" class="easyui-textbox" data-options="">	
+		</div>
+		<div style="margin-top:10px;margin-left:200px;">
+			<label style="font-weight:bold;">上课周次：</label><input name="timeweek" type="text" class="easyui-textbox" data-options="">	
+		</div>
+		<div style="margin-top:10px;margin-left:200px;">
+			<label style="font-weight:bold;">上课地点：</label><input name="site" type="text" class="easyui-textbox" data-options="">	
+		</div>
+		
+	
+		<!-- 提交按钮 -->
+		<!-- <a id="btn" href="#" style="margin-left:250px;margin-top:20px;" type="submit" class="easyui-linkbutton" data-options="iconCls:'icon-save'">添加</a> -->
+		<div style="text-align:center;">
+			<input id="addCourse_btn" style="width:100px;margin-top:20px;" class="loginButton" type="submit" value="添加" />
+		</div>
+	</form>
+</body>
+</html>

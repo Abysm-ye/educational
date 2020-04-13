@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>课程信息管理</title>
+</head>
+<body>
+	<script type="text/javascript">
+		$(function(){
+			$('#stu_score_dg').datagrid({
+			    url:'/educational/student/showScore',
+			    iconCls:'icon-more',
+			    title:'成绩列表',
+			    rownumbers:true,//行号
+			    fitColumns:true,
+			    pagination:true,
+				pageList:[2,4,6,8,10],
+			    columns:[[
+			    	{field:'id',title:'ID',hidden:true},
+			        {field:'name',title:'课程',width:60,align:'center',formatter: function(value,row,index){
+            				return row.courses[0].name;
+            			},
+            		},
+			        {field:'username',title:'授课老师',width:60,align:'center',formatter: function(value,row,index){
+	            			return row.users[0].name;
+                		},
+                	},
+			        {field:'score',title:'成绩',width:60,align:'center',},
+			        {field:'remark',title:'备注',width:60,align:'center',},
+			    ]],
+			    
+			    
+			})
+		})
+		
+		
+	</script>
+	<!-- 数据列表 -->
+	<table id="stu_score_dg"></table>
+	
+</body>
+</html>
